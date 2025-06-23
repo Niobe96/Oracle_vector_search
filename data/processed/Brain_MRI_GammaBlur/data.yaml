@@ -1,0 +1,10 @@
+names:
+  0: pituitary tumor
+  1: meningioma tumor
+  2: glioma tumor
+  3: no tumor
+nc: 4
+path: C:\Users\KDT_10\Desktop\mini_project\data\processed\Brain_MRI_GammaBlur
+test: test/images
+train: train/images
+val: valid/images

@@ -1,0 +1,11 @@
+path: C:/Users/KDT-19/PycharmProjects/PythonProject/Brain_MRI
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 4
+names:
+  0: pituitary tumor
+  1: meningioma tumor
+  2: glioma tumor
+  3: no tumor
