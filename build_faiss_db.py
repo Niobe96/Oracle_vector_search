@@ -195,8 +195,8 @@ def run_build_pipeline():
 
                         metadata = {
                             'class_id': class_id,
-                            'original_path': image_path,
-                            'cropped_path': cropped_path,
+                            'original_path': os.path.relpath(image_path, BASE_PROJECT_DIR),
+                            'cropped_path': os.path.relpath(cropped_path, BASE_PROJECT_DIR),
                             'coords': [x1, y1, x2, y2]
                         }
                         all_vectors.append(feature_vector)
