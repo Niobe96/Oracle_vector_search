@@ -149,18 +149,20 @@ if uploaded_file is not None:
                     
                     with exp_col1:
                         # 잘라낸 종양 이미지 보여주기
-                        cropped_img_path = result_meta['cropped_path']
-                        if os.path.exists(cropped_img_path):
-                            image = Image.open(cropped_img_path)
-                            st.image(image, caption="유사한 종양 부위 (Cropped)")
+                        relative_cropped_path = result_meta['cropped_path']
+                        full_cropped_path = os.path.join(BASE_PROJECT_DIR, relative_cropped_path)
+                        if os.path.exists(full_cropped_path):
+                                image = Image.open(full_cropped_path)
+                                st.image(image, caption="유사한 종양 부위 (Cropped)")
                         else:
-                            st.warning(f"잘라낸 이미지를 찾을 수 없습니다: {cropped_img_path}")
+                            st.warning(f"잘라낸 이미지를 찾을 수 없습니다: {full_cropped_path}")
                             
                     with exp_col2:
                         # 원본 전체 이미지에 바운딩 박스 그려서 보여주기
-                        original_img_path = result_meta['original_path']
-                        if os.path.exists(original_img_path):
-                            original_image_with_box = cv2.imread(original_img_path)
+                        relative_original_path = result_meta['original_path']
+                        full_original_path = os.path.join(BASE_PROJECT_DIR, relative_original_path)
+                        if os.path.exists(full_original_path):
+                            original_image_with_box = cv2.imread(full_original_path)
                             coords = result_meta['coords']
                             b_x1, b_y1, b_x2, b_y2 = coords
                             cv2.rectangle(original_image_with_box, (b_x1, b_y1), (b_x2, b_y2), (0, 0, 255), 2)
