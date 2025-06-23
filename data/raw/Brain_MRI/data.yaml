@@ -1,4 +1,4 @@
-path: C:/Users/KDT-19/PycharmProjects/PythonProject/Brain_MRI
+path: data/raw/Brain_MRI
 train: train/images
 val: valid/images
 test: test/images
