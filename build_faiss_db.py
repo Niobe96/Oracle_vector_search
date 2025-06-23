@@ -14,7 +14,7 @@ import yaml
 
 # --- ⚙️ 1. 설정 (Configuration) ---
 # 스크립트가 실행되는 위치를 기준으로 경로 설정
-BASE_PROJECT_DIR = r'C:\Users\KDT_10\Desktop\mini_project'
+BASE_PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # 입력 경로
 ORIGINAL_BASE_DIR = os.path.join(BASE_PROJECT_DIR, 'data', 'raw', 'Brain_MRI')
