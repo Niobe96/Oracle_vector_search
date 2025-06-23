@@ -168,4 +168,4 @@ if uploaded_file is not None:
                             cv2.rectangle(original_image_with_box, (b_x1, b_y1), (b_x2, b_y2), (0, 0, 255), 2)
                             st.image(original_image_with_box, channels="BGR", caption="전체 원본 MRI (With BBox)")
                         else:
-                            st.warning(f"원본 이미지를 찾을 수 없습니다: {original_img_path}")
+                            st.warning(f"원본 이미지를 찾을 수 없습니다: {full_original_path}")
