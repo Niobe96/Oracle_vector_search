@@ -97,7 +97,7 @@ def preprocess_dataset_with_gamma_blur(original_base_path, new_base_path, gamma_
             with open(original_yaml_path, 'r') as f: data_yaml = yaml.safe_load(f)
             # 'path' 키가 존재하면 새로운 전처리 폴더의 절대 경로로 업데이트
             if 'path' in data_yaml:
-                data_yaml['path'] = os.path.abspath(new_base_path)
+                data_yaml['path'] = os.path.relpath(new_base_path, BASE_PROJECT_DIR)
             with open(new_yaml_path, 'w') as f: yaml.dump(data_yaml, f)
         except Exception as e:
             print(f"Could not process data.yaml file: {e}")
