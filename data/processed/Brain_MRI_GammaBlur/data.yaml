@@ -4,7 +4,7 @@ names:
   2: glioma tumor
   3: no tumor
 nc: 4
-path: data/raw/Brain_MRI
+path: data/processed/Brain_MRI_GammaBlur
 test: test/images
 train: train/images
 val: valid/images
