@@ -2,6 +2,10 @@
 
 빠른 시작 : https://oraclevectorsearch-zouavxknmoercdmdltbbkq.streamlit.app/
 
+## 제작 이미지
+
+![image](https://github.com/user-attachments/assets/92df5bef-f852-43ac-bfca-65c59340cb4b)
+
 ## ✨ 프로젝트 개요
 
  이 프로젝트는 뇌 MRI 이미지에서 종양을 효과적으로 탐지하고, 기존에 구축된 방대한 의료 데이터베이스에서 가장 유사한 임상 사례를 신속하게 검색하여 의료진의 진단 과정을 보조하고 의사 결정의 정확성을 높이는 데 기여하는 웹 기반 시스템입니다. 최첨단 딥러닝 모델과 벡터 검색 기술을 결합하여, 새로운 MRI 이미지에 대한 지능적인 유사성 분석 기능을 제공합니다.
@@ -49,8 +53,7 @@ CNN 특징 추출 (종양): 탐지된 종양 객체의 특징 벡터를 CNN (Res
 
 https://oraclevectorsearch-zouavxknmoercdmdltbbkq.streamlit.app/
 
-🤝 기여 (Contributing)
+## 🤝 기여 (Contributing)
 
 이 프로젝트에 대한 기여는 언제나 환영합니다. 버그 보고, 기능 제안, 코드 개선 등 어떤 형태의 기여든 좋습니다.
 
-![image](https://github.com/user-attachments/assets/92df5bef-f852-43ac-bfca-65c59340cb4b)
