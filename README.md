@@ -4,7 +4,7 @@
 
 ## 제작 이미지
 
-![image](https://github.com/user-attachments/assets/92df5bef-f852-43ac-bfca-65c59340cb4b)
+![_YOLO v8 모델 기반 뇌 MRI 분석 기술의 사본](https://github.com/user-attachments/assets/271be81f-4860-4f10-90b4-d610f3ad33d7)
 
 ## ✨ 프로젝트 개요
 
