@@ -1,4 +1,4 @@
-# 🧠 뇌종양 유사 사례 검색 시스템 (Brain Tumor Similar Case Retrieval System)
+# 🧠 AI 기반 뇌종양 유사 이미지 검색 시스템
 
 빠른 시작 : https://oraclevectorsearch-zouavxknmoercdmdltbbkq.streamlit.app/
 
