@@ -162,7 +162,7 @@ if uploaded_file is not None:
                         
                         # --- 💡 핵심 경로 처리: 모든 백슬래시를 슬래시로 교체 후 결합 ---
                         # metadata에서 읽은 상대 경로를 먼저 완전히 정리
-                        cleaned_relative_cropped_path = relative_cropped_path_from_meta.replace('\', '/')
+                        cleaned_relative_cropped_path = relative_cropped_path_from_meta.replace('\\', '/') # 수정된 부분
                         # BASE_PROJECT_DIR과 이 상대 경로를 결합하여 최종 절대 경로 생성
                         full_cropped_path = os.path.join(BASE_PROJECT_DIR, cleaned_relative_cropped_path)
                         # 마지막으로, 파일 시스템 함수에 전달하기 전에 모든 OS별 구분자를 슬래시로 강제 변환
@@ -193,7 +193,7 @@ if uploaded_file is not None:
                         
                         # --- 💡 핵심 경로 처리: 모든 백슬래시를 슬래시로 교체 후 결합 ---
                         # metadata에서 읽은 상대 경로를 먼저 완전히 정리
-                        cleaned_relative_original_path = relative_original_path_from_meta.replace('\', '/')
+                        cleaned_relative_original_path = relative_original_path_from_meta.replace('\\', '/') # 수정된 부분
                         # BASE_PROJECT_DIR과 이 상대 경로를 결합하여 최종 절대 경로 생성
                         full_original_path = os.path.join(BASE_PROJECT_DIR, cleaned_relative_original_path)
                         # 마지막으로, 파일 시스템 함수에 전달하기 전에 모든 OS별 구분자를 슬래시로 강제 변환
