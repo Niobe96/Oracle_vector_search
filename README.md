@@ -2,11 +2,11 @@
 
 빠른 시작 : https://oraclevectorsearch-zouavxknmoercdmdltbbkq.streamlit.app/
 
-✨ 프로젝트 개요
+## ✨ 프로젝트 개요
 
  이 프로젝트는 뇌 MRI 이미지에서 종양을 효과적으로 탐지하고, 기존에 구축된 방대한 의료 데이터베이스에서 가장 유사한 임상 사례를 신속하게 검색하여 의료진의 진단 과정을 보조하고 의사 결정의 정확성을 높이는 데 기여하는 웹 기반 시스템입니다. 최첨단 딥러닝 모델과 벡터 검색 기술을 결합하여, 새로운 MRI 이미지에 대한 지능적인 유사성 분석 기능을 제공합니다.
 
-🚀 주요 기능
+## 🚀 주요 기능
 
 지능형 종양 탐지: 업로드된 뇌 MRI 이미지에서 YOLO (You Only Look Once) 모델을 활용하여 종양 영역을 정확하게 식별하고 경계를 표시합니다.
 
@@ -16,11 +16,11 @@
 
 직관적인 웹 인터페이스: Streamlit 프레임워크를 사용하여 사용자가 쉽게 이미지를 업로드하고 분석 결과를 시각적으로 확인할 수 있는 사용자 친화적인 웹 애플리케이션을 제공합니다.
 
-💡 시스템 아키텍처
+## 💡 시스템 아키텍처
 
 본 시스템은 크게 두 가지 주요 단계로 구성됩니다: 훈련 단계 (Training Stage)와 유사성 검색 단계 (Similarity Stage).
 
-Stage 1: 훈련 (Training)
+## Stage 1: 훈련 (Training)
 이 단계에서는 대량의 뇌 MRI 이미지를 학습하여 벡터 데이터베이스를 구축합니다.
 
 뇌 MRI 이미지 전처리: 원본 뇌 MRI 이미지를 준비합니다.
@@ -31,7 +31,7 @@ CNN 특징 추출 (종양): 탐지되어 레이블링된 종양 부위만을 CNN
 
 벡터 데이터베이스 구축: 추출된 특징 벡터들을 FAISS 기반의 Vector Database에 효율적인 검색을 위한 인덱스 형태로 저장합니다. 이 데이터베이스는 추후 유사성 검색을 위한 기준점이 됩니다.
 
-Stage 2: 유사성 검색 (Similarity)
+## Stage 2: 유사성 검색 (Similarity)
 
 새로운 뇌 MRI 이미지가 입력되면, 훈련 단계에서 구축된 데이터베이스를 활용하여 유사한 사례를 검색합니다.
 
@@ -45,7 +45,7 @@ CNN 특징 추출 (종양): 탐지된 종양 객체의 특징 벡터를 CNN (Res
 
 결과 출력: 유사도가 가장 높은 상위 5개의 기존 임상 사례를 이미지 및 관련 정보와 함께 사용자에게 시각적으로 제시합니다.
 
-🛠️ 기술 스택 (Tech Stack)
+## 🛠️ 기술 스택 (Tech Stack)
 
 객체 탐지 (Object Detection): YOLOv8
 
@@ -59,7 +59,7 @@ CNN 특징 추출 (종양): 탐지된 종양 객체의 특징 벡터를 CNN (Res
 
 프로그래밍 언어 (Programming Language): Python
 
-🏁 시작하기 (Getting Started)
+## 🏁 시작하기 (Getting Started)
 
 https://oraclevectorsearch-zouavxknmoercdmdltbbkq.streamlit.app/
 
