@@ -45,20 +45,6 @@ CNN 특징 추출 (종양): 탐지된 종양 객체의 특징 벡터를 CNN (Res
 
 결과 출력: 유사도가 가장 높은 상위 5개의 기존 임상 사례를 이미지 및 관련 정보와 함께 사용자에게 시각적으로 제시합니다.
 
-## 🛠️ 기술 스택 (Tech Stack)
-
-객체 탐지 (Object Detection): YOLOv8
-
-특징 추출 (Feature Extraction): PyTorch (ResNet-18)
-
-벡터 데이터베이스 (Vector Database): FAISS
-
-이미지 처리 (Image Processing): OpenCV (cv2), PIL (Pillow)
-
-웹 프레임워크 (Web Framework): Streamlit
-
-프로그래밍 언어 (Programming Language): Python
-
 ## 🏁 시작하기 (Getting Started)
 
 https://oraclevectorsearch-zouavxknmoercdmdltbbkq.streamlit.app/
