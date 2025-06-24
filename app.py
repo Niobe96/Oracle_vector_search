@@ -15,11 +15,14 @@ from ultralytics import YOLO # YOLOv8 이상을 위한 import
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 # app.py 파일의 위치를 기준으로 경로 설정
+# 이 BASE_PROJECT_DIR이 GitHub 저장소의 루트 디렉토리가 됩니다.
 BASE_PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+# `assets`, `output`, `data` 디렉토리가 BASE_PROJECT_DIR 바로 아래에 있다고 가정합니다.
 ASSETS_DIR = os.path.join(BASE_PROJECT_DIR, 'assets')
-OUTPUT_DIR = os.path.join(BASE_PROJECT_DIR, 'output')
+OUTPUT_DIR = os.path.join(BASE_PROJECT_DIR, 'output') 
+DATA_DIR = os.path.join(BASE_PROJECT_DIR, 'data') 
 
-# 사용할 파일 경로들
+# 사용할 파일 경로들 (BASE_PROJECT_DIR 아래의 assets 폴더에 위치)
 YOLO_MODEL_PATH = os.path.join(ASSETS_DIR, 'best.pt')
 FAISS_INDEX_PATH = os.path.join(ASSETS_DIR, 'tumor_db.index')
 METADATA_PKL_PATH = os.path.join(ASSETS_DIR, 'metadata.pkl')
@@ -81,6 +84,12 @@ st.set_page_config(layout="wide")
 st.title("🧠 뇌종양 유사 사례 검색 시스템")
 st.write("MRI 이미지를 업로드하면, AI가 종양을 탐지하고 DB에서 가장 유사한 사례를 찾아 보여줍니다.")
 
+# 사이드바에 디버깅 정보 출력 공간 추가
+st.sidebar.title("디버깅 정보")
+st.sidebar.write(f"BASE_PROJECT_DIR (app.py 기준): {BASE_PROJECT_DIR}")
+st.sidebar.write(f"현재 작업 디렉토리: {os.getcwd()}")
+st.sidebar.write("---")
+
 try:
     yolo, cnn, index, metadata_list, device = load_all()
 except Exception as e:
@@ -101,7 +110,7 @@ if uploaded_file is not None:
         clahe_image = apply_clahe_to_image(original_image)
         
         # 2. YOLOv8로 종양 탐지
-        results = yolo(clahe_image, verbose=False) # verbose=False로 터미널 로그 깔끔하게
+        results = yolo(clahe_image, verbose=False) 
         result = results[0] 
 
         # 3. 결과 처리
@@ -149,23 +158,65 @@ if uploaded_file is not None:
                     
                     with exp_col1:
                         # 잘라낸 종양 이미지 보여주기
-                        relative_cropped_path = result_meta['cropped_path']
-                        full_cropped_path = os.path.join(BASE_PROJECT_DIR, relative_cropped_path)
-                        if os.path.exists(full_cropped_path):
-                                image = Image.open(full_cropped_path)
+                        relative_cropped_path_from_meta = result_meta['cropped_path'] 
+                        
+                        # --- 💡 핵심 경로 처리: 모든 백슬래시를 슬래시로 교체 후 결합 ---
+                        # metadata에서 읽은 상대 경로를 먼저 완전히 정리
+                        cleaned_relative_cropped_path = relative_cropped_path_from_meta.replace('\', '/')
+                        # BASE_PROJECT_DIR과 이 상대 경로를 결합하여 최종 절대 경로 생성
+                        full_cropped_path = os.path.join(BASE_PROJECT_DIR, cleaned_relative_cropped_path)
+                        # 마지막으로, 파일 시스템 함수에 전달하기 전에 모든 OS별 구분자를 슬래시로 강제 변환
+                        final_path_for_cropped_image = full_cropped_path.replace(os.sep, '/')
+                        # --- 💡 핵심 경로 처리 끝 ---
+
+                        st.sidebar.write(f"--- Cropped Image Path Debugging ---")
+                        st.sidebar.write(f"1. Raw from meta: `{relative_cropped_path_from_meta}`")
+                        st.sidebar.write(f"2. Cleaned relative: `{cleaned_relative_cropped_path}`")
+                        st.sidebar.write(f"3. Joined with BASE_PROJECT_DIR: `{full_cropped_path}`")
+                        st.sidebar.write(f"4. Final path for loading: `{final_path_for_cropped_image}`")
+                        st.sidebar.write(f"Does it exist? `{os.path.exists(final_path_for_cropped_image)}`")
+
+                        if os.path.exists(final_path_for_cropped_image):
+                            try:
+                                image = Image.open(final_path_for_cropped_image)
                                 st.image(image, caption="유사한 종양 부위 (Cropped)")
+                            except Exception as img_e:
+                                st.error(f"잘라낸 이미지 로드 중 오류 발생: {img_e}")
+                                st.warning(f"시도한 경로: `{final_path_for_cropped_image}`")
                         else:
-                            st.warning(f"잘라낸 이미지를 찾을 수 없습니다: {full_cropped_path}")
+                            st.error(f"잘라낸 이미지를 찾을 수 없습니다: `{final_path_for_cropped_image}`")
+                            st.sidebar.error(f"ERROR: Cropped path `{final_path_for_cropped_image}` does not exist.")
                             
                     with exp_col2:
                         # 원본 전체 이미지에 바운딩 박스 그려서 보여주기
-                        relative_original_path = result_meta['original_path']
-                        full_original_path = os.path.join(BASE_PROJECT_DIR, relative_original_path)
-                        if os.path.exists(full_original_path):
-                            original_image_with_box = cv2.imread(full_original_path)
-                            coords = result_meta['coords']
-                            b_x1, b_y1, b_x2, b_y2 = coords
-                            cv2.rectangle(original_image_with_box, (b_x1, b_y1), (b_x2, b_y2), (0, 0, 255), 2)
-                            st.image(original_image_with_box, channels="BGR", caption="전체 원본 MRI (With BBox)")
+                        relative_original_path_from_meta = result_meta['original_path'] 
+                        
+                        # --- 💡 핵심 경로 처리: 모든 백슬래시를 슬래시로 교체 후 결합 ---
+                        # metadata에서 읽은 상대 경로를 먼저 완전히 정리
+                        cleaned_relative_original_path = relative_original_path_from_meta.replace('\', '/')
+                        # BASE_PROJECT_DIR과 이 상대 경로를 결합하여 최종 절대 경로 생성
+                        full_original_path = os.path.join(BASE_PROJECT_DIR, cleaned_relative_original_path)
+                        # 마지막으로, 파일 시스템 함수에 전달하기 전에 모든 OS별 구분자를 슬래시로 강제 변환
+                        final_path_for_original_image = full_original_path.replace(os.sep, '/')
+                        # --- 💡 핵심 경로 처리 끝 ---
+
+                        st.sidebar.write(f"--- Original Image Path Debugging ---")
+                        st.sidebar.write(f"1. Raw from meta: `{relative_original_path_from_meta}`")
+                        st.sidebar.write(f"2. Cleaned relative: `{cleaned_relative_original_path}`")
+                        st.sidebar.write(f"3. Joined with BASE_PROJECT_DIR: `{full_original_path}`")
+                        st.sidebar.write(f"4. Final path for loading: `{final_path_for_original_image}`")
+                        st.sidebar.write(f"Does it exist? `{os.path.exists(final_path_for_original_image)}`")
+
+                        if os.path.exists(final_path_for_original_image):
+                            try:
+                                original_image_with_box = cv2.imread(final_path_for_original_image)
+                                coords = result_meta['coords']
+                                b_x1, b_y1, b_x2, b_y2 = coords
+                                cv2.rectangle(original_image_with_box, (b_x1, b_y1), (b_x2, b_y2), (0, 0, 255), 2)
+                                st.image(original_image_with_box, channels="BGR", caption="전체 원본 MRI (With BBox)")
+                            except Exception as img_e:
+                                st.error(f"원본 이미지 로드 중 오류 발생: {img_e}")
+                                st.warning(f"시도한 경로: `{final_path_for_original_image}`")
                         else:
-                            st.warning(f"원본 이미지를 찾을 수 없습니다: {full_original_path}")
+                            st.error(f"원본 이미지를 찾을 수 없습니다: `{final_path_for_original_image}`")
+                            st.sidebar.error(f"ERROR: Original path `{final_path_for_original_image}` does not exist.")
